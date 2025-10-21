@@ -1,0 +1,26 @@
+name: Auto Sync token_bd.json every 30 min
+
+on:
+  schedule:
+    - cron: "*/30 * * * *" # runs every 30 minutes
+  workflow_dispatch: # lets you trigger manually too
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout your repo
+        uses: actions/checkout@v4
+
+      - name: Download latest token file from source repo
+        run: |
+          mkdir -p tokens
+          curl -o tokens/token_bd.json https://raw.githubusercontent.com/txcpanel/like-api/main/tokens/token_bd.json
+
+      - name: Commit and push if changed
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "actions@github.com"
+          git add tokens/token_bd.json
+          git diff --quiet && echo "No changes to commit" || (git commit -m "Auto-sync token_bd.json" && git push)
