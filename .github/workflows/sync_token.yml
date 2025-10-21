@@ -2,7 +2,7 @@ name: Auto Sync token_bd.json from txcpanel/like-api
 
 on:
   schedule:
-    - cron: "*/30 * * * *" # ⏱️ Runs every 30 minutes
+    - cron: "*/10 * * * *" # ⏱️ Runs every 30 minutes
   workflow_dispatch: # 🖐 Manual trigger from Actions tab
 
 permissions:
